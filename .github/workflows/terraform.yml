@@ -22,24 +22,13 @@ env:
   EKS_CLUSTER: vprofile-eks
 
 jobs:
-  - name: Snyk Infrastructure as Code scan
-  id: snyk-iac-scan
-  uses: Gershon-A/snyk-iac-code-security-checks@v1.0.1
-  continue-on-error: true
-  with:
-    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-    SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
-    SEVERITY_THRESHOLD: "critical"
-    FILE: "*.tf"
-    update_pr_with_scan_results: true
-  
   terraform:
     name: "Apply Terraform Code changes"
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-        working-directory: ./vprofile-full-stack-setup/eks-cluster
+        working-directory: ./eks-cluster
     steps:
       - name: "Checkout source code"
         uses: actions/checkout@v4
@@ -55,6 +44,7 @@ jobs:
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
+
 
       - name: "Terraform validate"
         id: validate
