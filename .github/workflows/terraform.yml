@@ -1,4 +1,4 @@
-name: "Vprofile-IAC"
+name: "IaC Deployment"
 
 on:
   push:
@@ -12,7 +12,6 @@ on:
       - main
     paths:
       - eks-cluster/**
-  workflow_dispatch: # Added workflow_dispatch
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
