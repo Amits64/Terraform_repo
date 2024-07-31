@@ -3,7 +3,6 @@ name: "Vprofile-IAC"
 on:
   push:
     branches:
-      - main
       - staging
     paths:
       - eks-cluster/**
@@ -82,7 +81,7 @@ jobs:
 
       - name: "Terraform Apply"
         id: apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
         run: terraform apply --auto-approve -input=false -parallelism=1 planFile
 
       - name: Configure AWS Credentials
