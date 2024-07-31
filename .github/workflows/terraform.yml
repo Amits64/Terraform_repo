@@ -3,6 +3,7 @@ name: "Vprofile-IAC"
 on:
   push:
     branches:
+      - push
       - staging
     paths:
       - eks-cluster/**
