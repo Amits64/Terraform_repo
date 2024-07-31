@@ -1,0 +1,19 @@
+kops create cluster --name=kubevpro.devops-tech.xyz   --state=s3://devops-tech-bkt-001 --zones=us-east-1a,us-east-1b   --node-count=2 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevpro.devops-tech.xyz   --node-volume-size=8 --master-volume-size=8
+kops update cluster --name kubevpro.devops-tech.xyz --state=s3://devops-tech-bkt-001 --yes --admin
+kops delete cluster --name=kubevpro.devops-tech.xyz --state=s3://devops-tech-bkt-001 --yes
+kops validate cluster --state=s3://devops-tech-bkt-001
+
+
+eksctl create cluster --name k8s-cluster --region us-east-1
+eksctl create nodegroup --cluster k8s-cluster --node-type t2.medium --nodes 2 --nodes-min 1 --nodes-max 3 --name my-nodegroup
+eksctl scale nodegroup --cluster k8s-cluster --nodes 5 --name my-nodegroup
+eksctl get clusters
+eksctl update cluster --name k8s-cluster
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster k8s-cluster
+eksctl create iamserviceaccount --region us-east-1 --name my-serviceaccount --namespace default --cluster k8s-cluster --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster k8s-cluster
+eksctl create iamserviceaccount --region us-east-1 --name my-serviceaccount --namespace default --cluster k8s-cluster --attach-policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
+eksctl utils write-kubeconfig --cluster k8s-cluster
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+kubectl proxy
+eksctl delete cluster --name k8s-cluster
