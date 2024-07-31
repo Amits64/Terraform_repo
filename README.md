@@ -1,6 +1,6 @@
-# Terraform Repository for VProfile Production Environment
+# Terraform Repository for AWS Infrastructure Deployment
 
-Welcome to the Terraform repository for deploying the VProfile production environment. This repository contains all the necessary configurations and scripts to set up and manage a robust and scalable environment using AWS Elastic Beanstalk and other AWS services.
+Welcome to the Terraform repository for deploying AWS infrastructure. This repository contains all the necessary configurations and scripts to set up and manage a robust and scalable environment using various AWS services.
 
 ## Table of Contents
 
@@ -20,14 +20,14 @@ Welcome to the Terraform repository for deploying the VProfile production enviro
 
 ## Introduction
 
-This project automates the provisioning and deployment of the VProfile application using Terraform. The infrastructure includes:
+This project automates the provisioning and deployment of AWS infrastructure using Terraform. The infrastructure can include:
 
-- AWS Elastic Beanstalk for application deployment.
+- AWS EC2 for compute instances.
 - AWS RDS for database management.
 - AWS S3 for storage.
 - AWS VPC for network segmentation.
 - AWS IAM for access control.
-- AWS EC2 instances.
+- AWS Elastic Beanstalk for application deployment.
 - AWS MQ for messaging.
 
 ## Prerequisites
@@ -42,12 +42,12 @@ Before you begin, ensure you have the following:
 ### Tools and Technologies
 
 - **Terraform**: Infrastructure as Code (IaC) tool used for provisioning the AWS resources.
-- **AWS Elastic Beanstalk**: Managed service for deploying and scaling web applications.
+- **AWS EC2**: Compute instances for application servers.
 - **AWS RDS**: Managed relational database service.
 - **AWS S3**: Scalable storage service.
 - **AWS VPC**: Virtual Private Cloud for network isolation.
 - **AWS IAM**: Identity and Access Management for security.
-- **AWS EC2**: Compute instances for application servers.
+- **AWS Elastic Beanstalk**: Managed service for deploying and scaling web applications.
 - **AWS MQ**: Managed message broker service.
 
 ## Installation
@@ -141,15 +141,27 @@ Handles the provisioning of EC2 instances.
 
 Manages the setup of the RDS database.
 
+### S3 Module
+
+Manages S3 buckets and related configurations.
+
+### IAM Module
+
+Handles the creation and management of IAM roles, policies, and users.
+
 ### Elastic Beanstalk Module
 
 Automates the deployment of the Elastic Beanstalk environment.
 
+### MQ Module
+
+Manages AWS MQ for messaging.
+
 ## Examples
 
-### Example 1: Simple Deployment
+### Example 1: Simple EC2 Deployment
 
-A basic example of deploying the VProfile application with minimal configuration.
+A basic example of deploying EC2 instances with minimal configuration.
 
 ```hcl
 module "vpc" {
@@ -157,8 +169,8 @@ module "vpc" {
   ...
 }
 
-module "elastic_beanstalk" {
-  source = "./modules/elastic_beanstalk"
+module "ec2" {
+  source = "./modules/ec2"
   ...
 }
 ```
@@ -173,8 +185,8 @@ module "vpc" {
   ...
 }
 
-module "elastic_beanstalk" {
-  source = "./modules/elastic_beanstalk"
+module "ec2" {
+  source = "./modules/ec2"
   ...
 }
 
@@ -217,7 +229,7 @@ terraform apply -var 'environment=prod'
 
 ### Step 2: Monitoring
 
-Monitor the resources and application using AWS CloudWatch and Elastic Beanstalk health reports.
+Monitor the resources and application using AWS CloudWatch and other relevant AWS monitoring services.
 
 ## Troubleshooting
 
@@ -228,7 +240,7 @@ Monitor the resources and application using AWS CloudWatch and Elastic Beanstalk
 
 ### Logs
 
-Check the logs in AWS Elastic Beanstalk and CloudWatch for detailed error messages.
+Check the logs in AWS services such as CloudWatch, Elastic Beanstalk, and RDS for detailed error messages.
 
 ## Contributing
 
@@ -254,4 +266,4 @@ For any questions or support, please reach out to:
 
 - **Name**: Amit Singh
 - **Email**: chauhanamit090@hotmail.com
-- **LinkedIn**: [[Amit Singh]([https://www.linkedin.com/in/amitsingh/](https://www.linkedin.com/in/amit-singh-9a4b7184/))](https://www.linkedin.com/in/amit-singh-9a4b7184/)
+- **LinkedIn**: [Amit Singh](https://www.linkedin.com/in/amit-singh-9a4b7184/)
