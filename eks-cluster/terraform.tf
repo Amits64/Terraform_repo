@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.25.0"
+      version = "~> 5.60.0" # Ensure this is compatible with your other modules and requirements
     }
 
     random = {
@@ -27,13 +27,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "gitopsterrastate"
-    key    = "terraform.tfstate"
-    region = "us-east-2"
+    bucket = "terraform-state-files-bkt-001"
+    key    = "terraform/eks-backend"
+    region = "us-east-1"
   }
 
-  required_version = "~> 1.6.3"
+  required_version = "~> 1.9.3"
 }
-##
-##
-##

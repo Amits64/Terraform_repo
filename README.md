@@ -1,4 +1,5 @@
-# Terraform Repository for AWS Infrastructure Deployment
+[![Vprofile-IAC](https://github.com/Amits64/Terraform_repo/actions/workflows/terraform.yml/badge.svg?branch=staging)](https://github.com/Amits64/Terraform_repo/actions/workflows/terraform.yml)
+## Terraform Repository for AWS Infrastructure Deployment ##
 
 Welcome to the Terraform repository for deploying AWS infrastructure. This repository contains all the necessary configurations and scripts to set up and manage a robust and scalable environment using various AWS services.
 
@@ -267,3 +268,5 @@ For any questions or support, please reach out to:
 - **Name**: Amit Singh
 - **Email**: chauhanamit090@hotmail.com
 - **LinkedIn**: [Amit Singh](https://www.linkedin.com/in/amit-singh-9a4b7184/)
+
+#####
