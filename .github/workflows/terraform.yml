@@ -12,7 +12,7 @@ on:
       - main
     paths:
       - eks-cluster/**
-  workflow_dispatch: # Allows manual triggering of the workflow
+  workflow_dispatch:
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
