@@ -1,4 +1,4 @@
-## Terraform Repository for AWS Infrastructure Deployment
+## Terraform Repository for AWS Infrastructure Deployment ##
 
 Welcome to the Terraform repository for deploying AWS infrastructure. This repository contains all the necessary configurations and scripts to set up and manage a robust and scalable environment using various AWS services.
 
