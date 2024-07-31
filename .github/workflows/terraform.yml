@@ -35,7 +35,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           SNYK_ORG_ID: ${{ secrets.SNYK_ORG_ID }}
           SEVERITY_THRESHOLD: "critical"
-          FILE: "example-*"
+          FILE: "*"
+          JSON_FILE_OUTPUT: "snyk.json"
           update_pr_with_scan_results: true
   
   terraform:
