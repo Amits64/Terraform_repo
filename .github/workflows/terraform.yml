@@ -33,7 +33,7 @@ jobs:
       - name: Snyk monitor
         run: |
           ls -lrt
-          cd /home/runner/work/Terraform_repo/eks-cluster
+          cd eks-cluster
           snyk test --all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
