@@ -1,4 +1,11 @@
 terraform {
+  cloud {
+    organization = "SFBTraining"
+
+    workspaces {
+      name = "EKS_DEPLOY"
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
