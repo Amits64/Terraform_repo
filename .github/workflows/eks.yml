@@ -3,6 +3,7 @@ name: "EKS_Deployment"
 on:
   push:
     branches:
+      - main
       - staging
     paths:
       - eks-cluster/**
