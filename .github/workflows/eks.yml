@@ -112,7 +112,7 @@ jobs:
 
       - name: "Terraform Apply"
         id: apply
-        if: steps.check_pr.outcome == 'success' && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        if: github.event_name == 'push' && github.ref == 'refs/heads/staging' && github.event.base_ref == 'main'
         run: terraform apply --auto-approve
 
       - name: "Get Kube config file"
