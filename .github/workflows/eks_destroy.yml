@@ -1,17 +1,6 @@
-name: "EKS_Deployment"
+name: "EKS_Destroy"
 
 on:
-  push:
-    branches:
-      - main
-      - staging
-    paths:
-      - eks-cluster/**
-  pull_request:
-    branches:
-      - main
-    paths:
-      - eks-cluster/**
   workflow_dispatch:
 
 env:
