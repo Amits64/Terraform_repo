@@ -51,8 +51,7 @@ jobs:
         run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=SFBTraining"
 
       - name: Select existing workspace
-        run: terraform workspace select EKS_DEPLOY
-
+        run: terraform workspace new EKS_DESTROY && terraform workspace select EKS_DESTROY
       - name: Migrate state to remote backend
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
