@@ -31,7 +31,7 @@ terraform {
     organization = "SFBTraining"
 
     workspaces {
-      name = "EKS_DEPLOY"
+      prefix = "EKS_DEPLOY"
     }
   }
 

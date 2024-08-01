@@ -21,7 +21,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=SFBTraining" -backend-config="workspaces.prefix=EKS_DEPLOY"
+      run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=SFBTraining"
 
     - name: Migrate state to remote backend
       working-directory: ./eks-cluster
