@@ -26,13 +26,10 @@ terraform {
     }
   }
 
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "SFBTraining"
-
-    workspaces {
-      prefix = "EKS_DEPLOY"
-    }
+  backend "s3" {
+    bucket = "terraform-state-files-bkt-001"
+    key    = "terraform/eks-backend"
+    region = "us-east-1"
   }
 
   required_version = "~> 1.9.3"
