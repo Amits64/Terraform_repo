@@ -1,4 +1,4 @@
-[![Vprofile-IAC](https://github.com/Amits64/Terraform_repo/actions/workflows/terraform.yml/badge.svg?branch=staging)](https://github.com/Amits64/Terraform_repo/actions/workflows/terraform.yml)
+[![EKS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml)
 ![Known Vulnerabilities](https://snyk.io/test/github/{username}/{repo}/badge.svg)
 ## Terraform Repository for AWS Infrastructure Deployment ##
 
