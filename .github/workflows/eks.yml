@@ -80,7 +80,7 @@ jobs:
 
       - name: "Terraform plan"
         id: plan
-        run: terraform plan -no-color -input=false -out planFile
+        run: terraform plan -no-color -input=false
         continue-on-error: true
 
       - name: "Terraform plan status"
