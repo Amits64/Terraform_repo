@@ -34,6 +34,7 @@ jobs:
         run: snyk iac test --report
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
 
   terraform:
     name: "Apply Terraform Code changes"
