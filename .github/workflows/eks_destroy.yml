@@ -12,6 +12,10 @@ env:
 jobs:
   destroy_eks:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./eks-cluster
     name: Terraform destroy
     steps:
       - name: "Checkout source code"
@@ -41,7 +45,6 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Migrate state to remote backend
-        working-directory: ./eks-cluster
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
