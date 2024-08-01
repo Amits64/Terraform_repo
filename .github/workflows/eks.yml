@@ -73,14 +73,6 @@ jobs:
         id: init
         run: terraform init
 
-      - name: terraform workspace new
-        if: steps.init.outcome == 'success'
-        run: terraform workspace new eks_deploy || true
-  
-      - name: terraform workspace select
-        if: steps.init.outcome == 'success'
-        run: terraform workspace select eks_deploy
-
       - name: "Terraform fmt"
         id: fmt
         run: terraform fmt -check
