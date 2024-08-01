@@ -56,6 +56,19 @@ jobs:
 
       - name: "Set up Terraform"
         uses: hashicorp/setup-terraform@v3
+      
+      - name: "Configure Terraform credentials"
+        run: |
+          mkdir -p ~/.terraform.d
+          cat > ~/.terraform.d/credentials.tfrc.json <<EOF
+          {
+            "credentials": {
+              "app.terraform.io": {
+                "token": "${{ secrets.TF_CLOUD_TOKEN }}"
+              }
+            }
+          }
+          EOF
 
       - name: "Terraform init"
         id: init
