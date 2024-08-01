@@ -21,10 +21,13 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}"
+      run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" -backend-config="key=terraform/eks-backend" -backend-config="region=us-east-1" -backend-config="encrypt=true"
 
     - name: Migrate state to remote backend
       working-directory: ./eks-cluster
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: terraform init -migrate-state
 
     - name: Terraform destroy
