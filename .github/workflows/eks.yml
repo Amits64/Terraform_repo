@@ -103,7 +103,7 @@ jobs:
 
       - name: "Terraform Apply"
         id: apply
-        if: steps.check_pr.outcome == 'success' && github.event_name == 'pull_request'
+        if: steps.check_pr.outcome == 'success' && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         run: terraform apply --auto-approve -input=false -parallelism=1
 
       - name: Configure AWS Credentials
