@@ -1,4 +1,5 @@
 [![EKS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml)
+[![EBS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml)
 ![Known Vulnerabilities](https://snyk.io/test/github/{username}/{repo}/badge.svg)
 ## Terraform Repository for AWS Infrastructure Deployment ##
 
