@@ -71,6 +71,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: terraform workspace new
+        run: terraform workspace new eks_deploy
+        continue-on-error: true
+  
+      - name: terraform workspace select
+        run: terraform workspace select eks_deploy
+        continue-on-error: true
+
       - name: "Terraform init"
         id: init
         run: terraform init
