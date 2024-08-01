@@ -17,7 +17,6 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE }}
   AWS_REGION: us-east-1
   EKS_CLUSTER: vprofile-eks
 
@@ -53,9 +52,22 @@ jobs:
       - name: "Set up Terraform"
         uses: hashicorp/setup-terraform@v3
 
+      - name: "Configure Terraform credentials"
+        run: |
+          mkdir -p ~/.terraform.d
+          cat > ~/.terraform.d/credentials.tfrc.json <<EOF
+          {
+            "credentials": {
+              "app.terraform.io": {
+                "token": "${{ secrets.TF_CLOUD_TOKEN }}"
+              }
+            }
+          }
+          EOF
+
       - name: "Terraform init"
         id: init
-        run: terraform init --backend-config="bucket=${{ env.BUCKET_TF_STATE }}"
+        run: terraform init --migrate-state
 
       - name: "Terraform fmt"
         id: fmt
@@ -68,7 +80,7 @@ jobs:
 
       - name: "Terraform plan"
         id: plan
-        run: terraform plan -no-color -input=false -out planFile
+        run: terraform plan -no-color -input=false
         continue-on-error: true
 
       - name: "Terraform plan status"
