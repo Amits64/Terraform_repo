@@ -16,12 +16,12 @@ jobs:
       with:
         terraform_version: 1.9.3
 
-    - name: Terraform init with S3 backend
+    - name: Terraform init with remote backend
       working-directory: ./eks-cluster
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" -backend-config="key=terraform/eks-backend" -backend-config="region=us-east-1" -backend-config="encrypt=true"
+      run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=SFBTraining" -backend-config="workspaces.name=EKS_DEPLOY"
 
     - name: Migrate state to remote backend
       working-directory: ./eks-cluster
