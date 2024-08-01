@@ -44,18 +44,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Terraform init with remote backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=SFBTraining"
+
+      - name: Select existing workspace
+        run: terraform workspace select EKS_DEPLOY
+
       - name: Migrate state to remote backend
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform init -migrate-state
 
-      - name: Select existing workspace
-        working-directory: ./eks-cluster
-        run: terraform workspace select Terraform_repo
-
       - name: Terraform destroy
-        working-directory: ./eks-cluster
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
