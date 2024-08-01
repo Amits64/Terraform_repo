@@ -1,3 +1,3 @@
 provider "aws" {
-    default = var.AWS_REGION
+  default = var.AWS_REGION
 }
