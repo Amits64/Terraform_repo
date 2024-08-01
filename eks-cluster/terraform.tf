@@ -1,5 +1,6 @@
 terraform {
-  cloud {
+  backend "remote" {
+    hostname = "app.terraform.io"
     organization = "SFBTraining"
 
     workspaces {
