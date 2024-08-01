@@ -4,7 +4,7 @@ terraform {
     organization = "SFBTraining"
 
     workspaces {
-      name = "EKS_DEPLOY"
+      name = "BEANSTALK_DEPLOY"
     }
   }
 }
