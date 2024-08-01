@@ -64,6 +64,7 @@ jobs:
             }
           }
           EOF
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -96,6 +97,7 @@ jobs:
             echo "Head branch is not 'staging'. Exiting."
             exit 0
           fi
+          
       - name: "Terraform plan"
         id: plan
         if: steps.check_pr.outcome == 'success'
