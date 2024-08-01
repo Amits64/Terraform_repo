@@ -67,7 +67,7 @@ jobs:
 
       - name: "Terraform init"
         id: init
-        run: terraform init --migrate-state
+        run: terraform init
 
       - name: "Terraform fmt"
         id: fmt
@@ -120,4 +120,4 @@ jobs:
 
       - name: "Install Ingress Controller"
         if: steps.apply.outcome == 'success' && steps.getconfig.outcome == 'success'
-        run: kubectl apply -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+        run: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
