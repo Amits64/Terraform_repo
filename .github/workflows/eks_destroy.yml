@@ -16,14 +16,20 @@ jobs:
       with:
         terraform_version: 1.9.3
 
-    - name: Terraform init
-      working-directory: eks-cluster
-      run: terraform init
+    - name: Terraform init with S3 backend
+      working-directory: ./eks-cluster
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: terraform init -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}"
+
+    - name: Migrate state to remote backend
+      working-directory: ./eks-cluster
+      run: terraform init -migrate-state
 
     - name: Terraform destroy
-      working-directory: eks-cluster
+      working-directory: ./eks-cluster
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: terraform destroy -auto-approve
