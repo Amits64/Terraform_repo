@@ -100,7 +100,6 @@ jobs:
           
       - name: "Terraform plan"
         id: plan
-        if: steps.check_pr.outcome == 'success'
         run: terraform plan -no-color -input=false
         continue-on-error: true
 
