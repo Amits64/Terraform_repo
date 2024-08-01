@@ -83,19 +83,6 @@ jobs:
       - name: "Terraform validate"
         id: validate
         run: terraform validate
-
-      - name: "Check for pull request from staging to main"
-        id: check_pr
-        if: github.event_name == 'pull_request'
-        run: |
-          if [ "${{ github.event.pull_request.base.ref }}" != "main" ]; then
-            echo "Base branch is not 'main'. Exiting."
-            exit 0
-          fi
-          if [ "${{ github.event.pull_request.head.ref }}" != "staging" ]; then
-            echo "Head branch is not 'staging'. Exiting."
-            exit 0
-          fi
           
       - name: "Terraform plan"
         id: plan
@@ -111,8 +98,8 @@ jobs:
 
       - name: "Terraform Apply"
         id: apply
-        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'staging' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        run: terraform apply --auto-approve
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply --auto-approve -input=false parallelism=1
 
       - name: "Get Kube config file"
         id: getconfig
