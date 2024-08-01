@@ -83,19 +83,6 @@ jobs:
       - name: "Terraform validate"
         id: validate
         run: terraform validate
-
-      - name: "Check for pull request from staging to main"
-        id: check_pr
-        if: github.event_name == 'pull_request'
-        run: |
-          if [ "${{ github.event.pull_request.base.ref }}" != "main" ]; then
-            echo "Base branch is not 'main'. Exiting."
-            exit 0
-          fi
-          if [ "${{ github.event.pull_request.head.ref }}" != "staging" ]; then
-            echo "Head branch is not 'staging'. Exiting."
-            exit 0
-          fi
           
       - name: "Terraform plan"
         id: plan
@@ -108,17 +95,3 @@ jobs:
       - name: "Terraform plan status"
         if: steps.plan.outcome == 'failure'
         run: echo "Terraform plan failed"
-
-      - name: "Terraform Apply"
-        id: apply
-        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'staging' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        run: terraform apply --auto-approve
-
-      - name: "Get Kube config file"
-        id: getconfig
-        if: steps.apply.outcome == 'success'
-        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
-
-      - name: "Install Ingress Controller"
-        if: steps.apply.outcome == 'success' && steps.getconfig.outcome == 'success'
-        run: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
