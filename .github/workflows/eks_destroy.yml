@@ -46,7 +46,7 @@ jobs:
 
       - name: Select existing workspace
         working-directory: ./eks-cluster
-        run: terraform workspace select EKS_DEPLOY
+        run: terraform workspace select Terraform_repo
 
       - name: Migrate state to remote backend
         working-directory: ./eks-cluster
