@@ -3,53 +3,61 @@ name: "EKS_Destroy"
 on:
   workflow_dispatch:
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: us-east-1
+  EKS_CLUSTER: vprofile-eks
+
 jobs:
   destroy_eks:
     runs-on: ubuntu-latest
     name: Terraform destroy
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: "Checkout source code"
+        uses: actions/checkout@v4
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.9.3
+      - name: "Set up Terraform"
+        uses: hashicorp/setup-terraform@v3
 
-    - name: "Configure Terraform credentials"
-      run: |
-        mkdir -p ~/.terraform.d
-        cat > ~/.terraform.d/credentials.tfrc.json <<EOF
-        {
-          "credentials": {
-            "app.terraform.io": {
-              "token": "${{ secrets.TF_CLOUD_TOKEN }}"
+      - name: "Configure Terraform credentials"
+        run: |
+          mkdir -p ~/.terraform.d
+          cat > ~/.terraform.d/credentials.tfrc.json <<EOF
+          {
+            "credentials": {
+              "app.terraform.io": {
+                "token": "${{ secrets.TF_CLOUD_TOKEN }}"
+              }
             }
           }
-        }
-        EOF
+          EOF
 
-    - name: Terraform init with remote backend
-      working-directory: ./eks-cluster
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -backend-config="hostname=app.terraform.io" -backend-config="organization=SFBTraining"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-    - name: Select existing workspace
-      working-directory: ./eks-cluster
-      run: terraform workspace select EKS_DEPLOY
+      - name: "Terraform init"
+        id: init
+        run: terraform init
 
-    - name: Migrate state to remote backend
-      working-directory: ./eks-cluster
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -migrate-state
+      - name: Select existing workspace
+        working-directory: ./eks-cluster
+        run: terraform workspace select EKS_DEPLOY
 
-    - name: Terraform destroy
-      working-directory: ./eks-cluster
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform destroy -auto-approve
+      - name: Migrate state to remote backend
+        working-directory: ./eks-cluster
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform init -migrate-state
+
+      - name: Terraform destroy
+        working-directory: ./eks-cluster
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform destroy -auto-approve
