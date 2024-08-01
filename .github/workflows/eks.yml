@@ -3,7 +3,7 @@ name: "EKS_Deployment"
 on:
   push:
     branches:
-      - main
+      - push
       - staging
     paths:
       - eks-cluster/**
@@ -17,13 +17,16 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE }}
   AWS_REGION: us-east-1
   EKS_CLUSTER: vprofile-eks
 
 jobs:
   security:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./eks-cluster
     steps:
       - uses: actions/checkout@master
       - uses: snyk/actions/setup@master
@@ -31,7 +34,7 @@ jobs:
         with:
           go-version: '1.13'
       - name: Snyk monitor
-        run: snyk test --all-projects
+        run: snyk iac test --report
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -49,9 +52,28 @@ jobs:
       - name: "Set up Terraform"
         uses: hashicorp/setup-terraform@v3
 
+      - name: "Configure Terraform credentials"
+        run: |
+          mkdir -p ~/.terraform.d
+          cat > ~/.terraform.d/credentials.tfrc.json <<EOF
+          {
+            "credentials": {
+              "app.terraform.io": {
+                "token": "${{ secrets.TF_CLOUD_TOKEN }}"
+              }
+            }
+          }
+          EOF
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: "Terraform init"
         id: init
-        run: terraform init --backend-config="bucket=${{ env.BUCKET_TF_STATE }}"
+        run: terraform init
 
       - name: "Terraform fmt"
         id: fmt
@@ -62,11 +84,38 @@ jobs:
         id: validate
         run: terraform validate
 
+      - name: "Check for pull request from staging to main"
+        id: check_pr
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ "${{ github.event.pull_request.base.ref }}" != "main" ]; then
+            echo "Base branch is not 'main'. Exiting."
+            exit 0
+          fi
+          if [ "${{ github.event.pull_request.head.ref }}" != "staging" ]; then
+            echo "Head branch is not 'staging'. Exiting."
+            exit 0
+          fi
       - name: "Terraform plan"
         id: plan
-        run: terraform plan -no-color -input=false -out planFile
+        if: steps.check_pr.outcome == 'success'
+        run: terraform plan -no-color -input=false
         continue-on-error: true
 
       - name: "Terraform plan status"
         if: steps.plan.outcome == 'failure'
         run: exit 1
+
+      - name: "Terraform Apply"
+        id: apply
+        if: steps.check_pr.outcome == 'success' && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        run: terraform apply --auto-approve
+
+      - name: "Get Kube config file"
+        id: getconfig
+        if: steps.apply.outcome == 'success'
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+
+      - name: "Install Ingress Controller"
+        if: steps.apply.outcome == 'success' && steps.getconfig.outcome == 'success'
+        run: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
