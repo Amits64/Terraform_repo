@@ -14,8 +14,6 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: us-east-1
   EKS_CLUSTER: vprofile-eks
 
@@ -72,12 +70,10 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: terraform workspace new
-        run: terraform workspace new eks_deploy
-        continue-on-error: true
+        run: terraform workspace new eks_deploy || true
   
       - name: terraform workspace select
         run: terraform workspace select eks_deploy
-        continue-on-error: true
 
       - name: "Terraform init"
         id: init
@@ -94,11 +90,10 @@ jobs:
           
       - name: "Terraform plan"
         id: plan
+        run: terraform plan -no-color -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
 
       - name: "Terraform plan status"
         if: steps.plan.outcome == 'failure'
@@ -108,6 +103,9 @@ jobs:
         id: apply
         if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
         run: terraform apply --auto-approve -input=false
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: "Get Kube config file"
         id: getconfig
