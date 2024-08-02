@@ -343,9 +343,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License.
-
-### Next Steps:
-
-- Review the `README.md` content for accuracy and completeness based on your project.
-- Add any additional sections that may be necessary, such as specific instructions for your use case, environment variables, or configurations.
-- Share the `README.md` with your team or collaborators to ensure it provides the necessary guidance for setting up and managing the Kops and EKS clusters.
