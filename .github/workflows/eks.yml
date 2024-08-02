@@ -46,21 +46,20 @@ jobs:
     needs: security
     name: "Apply Terraform Code changes"
     runs-on: ubuntu-latest
+    uses: amits64/shared_library/.github/workflows/terraform-setup.yml@main
+    with:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-region: ${{ env.AWS_REGION }}
+      tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
+      working-directory: ./eks-cluster
 
+  post-apply:
+    needs: terraform
+    runs-on: ubuntu-latest
     steps:
-      - name: Call Terraform Setup
-        uses: amits64/shared_library/.github/workflows/terraform-setup.yml@main
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-          tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
-          working-directory: ./eks-cluster
-
       - name: Get Kube config file
-        if: success()
         run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
 
       - name: Install Ingress Controller
-        if: success()
         run: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
