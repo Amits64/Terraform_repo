@@ -44,6 +44,8 @@ jobs:
 
   terraform:
     needs: security
+    name: "Apply Terraform Code changes"
+    runs-on: ubuntu-latest
     uses: amits64/shared_library/.github/workflows/terraform-setup.yml@main
     with:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -51,6 +53,10 @@ jobs:
       aws-region: ${{ env.AWS_REGION }}
       tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
       working-directory: ./eks-cluster
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_CLOUD_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
 
   post-apply:
     needs: terraform
