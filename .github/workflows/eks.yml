@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Call Terraform Setup
-        uses: org-workflows/.github/workflows/terraform-setup.yml@main
+        uses: amits64/shared_library/org-workflows/.github/workflows/terraform-setup.yml@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
