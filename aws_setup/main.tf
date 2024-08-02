@@ -1,3 +1,13 @@
+terraform {
+  cloud {
+    organization = "SFBTraining"
+
+    workspaces {
+      name = "AWS_SETUP"
+    }
+  }
+}
+
 # Configure the AWS Provider
 provider "aws" {
   region = "us-east-1"

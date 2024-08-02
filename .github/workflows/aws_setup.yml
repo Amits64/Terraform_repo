@@ -1,4 +1,4 @@
-name: "EBS_Deployment"
+name: "AWS_Setup_Deployment"
 
 on:
   workflow_dispatch:
