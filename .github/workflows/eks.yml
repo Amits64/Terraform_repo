@@ -14,10 +14,6 @@ on:
       - eks-cluster/**
   workflow_dispatch:
 
-env:
-  AWS_REGION: us-east-1
-  EKS_CLUSTER: vprofile-eks
-
 jobs:
   security:
     runs-on: ubuntu-latest
@@ -46,7 +42,7 @@ jobs:
     needs: security
     uses: amits64/shared_library/.github/workflows/terraform-setup.yml@main
     with:
-      aws-region: ${{ env.AWS_REGION }}
+      aws-region: ${{ secrets.AWS_REGION }}
       tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
       working-directory: ./eks-cluster
     secrets:
@@ -58,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Kube config file
-        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
+        run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name vprofile-eks
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

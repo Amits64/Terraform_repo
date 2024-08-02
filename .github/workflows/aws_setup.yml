@@ -3,9 +3,6 @@ name: "AWS_Setup_Deployment"
 on:
   workflow_dispatch:
 
-env:
-  AWS_REGION: us-east-1
-
 jobs:
   security:
     runs-on: ubuntu-latest
