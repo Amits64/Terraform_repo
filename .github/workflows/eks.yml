@@ -46,13 +46,15 @@ jobs:
     needs: security
     name: "Apply Terraform Code changes"
     runs-on: ubuntu-latest
-    uses: amits64/shared_library/.github/workflows/terraform-setup.yml@main
-    with:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: ${{ env.AWS_REGION }}
-      tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
-      working-directory: ./eks-cluster
+    steps:
+      - name: Call reusable Terraform setup workflow
+        uses: amits64/shared_library.github/workflows/terraform-setup.yml
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
+          working-directory: ./eks-cluster
 
   post-apply:
     needs: terraform
