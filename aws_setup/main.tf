@@ -3,7 +3,7 @@ terraform {
     organization = "SFBTraining"
 
     workspaces {
-      name = "AWS_SETUP"
+      name = "AWS_PROJECT"
     }
   }
 }
