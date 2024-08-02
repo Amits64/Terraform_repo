@@ -23,10 +23,10 @@ resource "aws_vpc" "main" {
 
 # Create a public subnet
 resource "aws_subnet" "public" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "us-east-1a"  # Adjust if needed
+  availability_zone       = "us-east-1a" # Adjust if needed
   tags = {
     Name = "public-subnet"
   }
@@ -108,11 +108,11 @@ resource "aws_security_group" "allow_ssh" {
 
 # Define EC2 Instances
 resource "aws_instance" "jenkins" {
-  ami             = "ami-04a81a99f5ec58529" # Ubuntu 24.04 LTS AMI
-  instance_type   = "t2.medium"
-  key_name        = var.key_name
+  ami                    = "ami-04a81a99f5ec58529" # Ubuntu 24.04 LTS AMI
+  instance_type          = "t2.medium"
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id       = aws_subnet.public.id
+  subnet_id              = aws_subnet.public.id
 
   user_data = file("${path.module}/script-jenkins.sh")
 
@@ -122,11 +122,11 @@ resource "aws_instance" "jenkins" {
 }
 
 resource "aws_instance" "sonarqube" {
-  ami             = "ami-04a81a99f5ec58529" # Ubuntu 24.04 LTS AMI
-  instance_type   = "t2.medium"
-  key_name        = var.key_name
+  ami                    = "ami-04a81a99f5ec58529" # Ubuntu 24.04 LTS AMI
+  instance_type          = "t2.medium"
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id       = aws_subnet.public.id
+  subnet_id              = aws_subnet.public.id
 
   user_data = file("${path.module}/script-sonarqube.sh")
 
@@ -136,11 +136,11 @@ resource "aws_instance" "sonarqube" {
 }
 
 resource "aws_instance" "nexus" {
-  ami             = "ami-04a81a99f5ec58529" # Ubuntu 24.04 LTS AMI
-  instance_type   = "t2.medium"
-  key_name        = var.key_name
+  ami                    = "ami-04a81a99f5ec58529" # Ubuntu 24.04 LTS AMI
+  instance_type          = "t2.medium"
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id       = aws_subnet.public.id
+  subnet_id              = aws_subnet.public.id
 
   user_data = file("${path.module}/script-nexus.sh")
 
