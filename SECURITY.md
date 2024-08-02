@@ -25,7 +25,7 @@ We take security vulnerabilities seriously and appreciate your efforts to respon
 
 2. **GPG Encryption:** If you prefer, you can encrypt your email using our public GPG key available [here](https://yourproject.com/gpg-key).
 
-3. **Issue Tracker:** If the vulnerability is not sensitive, you may open an issue in our [issue tracker](https://github.com/amits64/issues) and label it as `security`.
+3. **Issue Tracker:** If the vulnerability is not sensitive, you may open an issue in our [issue tracker](https://github.com/Amits64/Terraform_repo/issues) and label it as `security`.
 
 ### Response Process
 
