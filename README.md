@@ -250,9 +250,9 @@ Check the logs in AWS services such as CloudWatch, Elastic Beanstalk, and RDS fo
 ### How to Contribute
 
 1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/fooBar`).
-3. Commit your changes (`git commit -m 'Add some fooBar'`).
-4. Push to the branch (`git push origin feature/fooBar`).
+2. Create a staging branch (`git checkout -b staging`).
+3. Commit your changes (`git commit -m 'Add some changes'`).
+4. Push to the branch (`git push origin staging`).
 5. Create a new Pull Request.
 
 ### Code of Conduct
