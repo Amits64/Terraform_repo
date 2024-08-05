@@ -122,7 +122,7 @@ To leverage these workflows in your own repositories, follow these steps:
 
    jobs:
      deploy:
-       uses: Amits64/Terraform_repo/.github/workflows/terraform-setup.yml@main
+       uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
        with:
          aws-region: ${{ secrets.AWS_REGION }}
          tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
