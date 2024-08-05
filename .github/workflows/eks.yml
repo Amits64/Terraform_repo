@@ -16,7 +16,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./beanstalk_setup
+        working-directory: ./eks-cluster
     steps:
       - uses: actions/checkout@master
       - uses: snyk/actions/setup@master
