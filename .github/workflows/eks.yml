@@ -51,7 +51,7 @@ jobs:
       - name: "Get Kube config file"
         id: getconfig
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
           EKS_CLUSTER: ${{ vars.EKS_CLUSTER }}
         run: aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER
 
