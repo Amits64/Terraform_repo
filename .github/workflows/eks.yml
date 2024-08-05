@@ -11,7 +11,26 @@ on:
   workflow_dispatch:
 
 jobs:
+  security:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./beanstalk_setup
+    steps:
+      - uses: actions/checkout@master
+      - uses: snyk/actions/setup@master
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.13'
+      - name: Snyk monitor
+        run: snyk iac test --report
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        continue-on-error: true
+
   deploy:
+    needs: security
     uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
     with:
       working-directory: "./eks-cluster"
