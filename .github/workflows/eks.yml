@@ -12,27 +12,13 @@ on:
 
 jobs:
   deploy:
-    uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
-    with:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: ${{ secrets.AWS_REGION }}
-      tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
-      working-directory: "./eks-cluster"
-
-    outputs:
-      aws-region: ${{ secrets.AWS_REGION }}
-      eks-cluster: ${{ secrets.EKS_CLUSTER }}
-
-  post-deploy:
-    needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: "Get Kube config file"
-        id: getconfig
-        if: ${{ needs.deploy.result == 'success' }}
-        run: aws eks update-kubeconfig --region ${{ needs.deploy.outputs.aws-region }} --name ${{ needs.deploy.outputs.eks-cluster }}
-
-      - name: "Install Ingress Controller"
-        if: ${{ needs.deploy.result == 'success' && steps.getconfig.outcome == 'success' }}
-        run: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+      - name: Call Reusable Workflow
+        uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
+          working-directory: "./eks-cluster"
