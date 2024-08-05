@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.60.0"
+      version = ">= 5.61.0"
     }
 
     random = {
@@ -36,4 +36,20 @@ terraform {
   }
 
   required_version = "~> 1.9.3"
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "20.22.0"
+  # Other module configurations
+}
+
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "5.12.0"
+  # Other module configurations
 }
