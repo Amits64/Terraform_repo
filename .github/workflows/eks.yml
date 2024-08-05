@@ -20,6 +20,10 @@ jobs:
       tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
       working-directory: "./eks-cluster"
 
+    outputs:
+      aws-region: ${{ secrets.AWS_REGION }}
+      eks-cluster: ${{ secrets.EKS_CLUSTER }}
+
   post-deploy:
     needs: deploy
     runs-on: ubuntu-latest
@@ -27,7 +31,7 @@ jobs:
       - name: "Get Kube config file"
         id: getconfig
         if: ${{ needs.deploy.result == 'success' }}
-        run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER }}
+        run: aws eks update-kubeconfig --region ${{ needs.deploy.outputs.aws-region }} --name ${{ needs.deploy.outputs.eks-cluster }}
 
       - name: "Install Ingress Controller"
         if: ${{ needs.deploy.result == 'success' && steps.getconfig.outcome == 'success' }}
