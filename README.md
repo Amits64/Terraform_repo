@@ -11,6 +11,7 @@ Welcome to the Terraform repository for deploying AWS infrastructure. This repos
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [Reusable Workflows](#reusable-workflows)
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Modules](#modules)
@@ -78,6 +79,71 @@ Initialize the Terraform working directory:
 ```sh
 terraform init
 ```
+
+## Reusable Workflows
+
+The repository includes reusable GitHub Actions workflows to streamline and automate the deployment and management of AWS infrastructure. These workflows are designed to be modular and reusable across different repositories and projects.
+
+### Available Workflows
+
+1. **EKS Deployment Workflow**
+
+   - **Filename**: `.github/workflows/eks.yml`
+   - **Purpose**: Automates the deployment of Amazon EKS clusters.
+   - **Usage**: This workflow handles the creation and management of Kubernetes clusters in AWS, including updating kubeconfig and installing required components such as the Ingress Controller.
+
+2. **EBS Deployment Workflow**
+
+   - **Filename**: `.github/workflows/beanstalk.yml`
+   - **Purpose**: Manages the deployment of AWS Elastic Beanstalk applications.
+   - **Usage**: Use this workflow to deploy and manage Elastic Beanstalk environments for your applications, including configuration updates and environment management.
+
+3. **AWS Setup Workflow**
+
+   - **Filename**: `.github/workflows/aws_setup.yml`
+   - **Purpose**: Sets up initial AWS infrastructure and configurations.
+   - **Usage**: This workflow initializes essential AWS resources and configurations needed for other workflows or applications, such as creating IAM roles or setting up network components.
+
+### How to Use Reusable Workflows
+
+To leverage these workflows in your own repositories, follow these steps:
+
+1. **Reference the Workflow**
+
+   In your `.github/workflows` directory, create a YAML file that calls the reusable workflow:
+
+   ```yaml
+   name: Example Deployment
+
+   on:
+     push:
+       branches:
+         - main
+
+   jobs:
+     deploy:
+       uses: Amits64/Terraform_repo/.github/workflows/eks.yml@main
+       with:
+         aws-region: ${{ secrets.AWS_REGION }}
+         tf-cloud-token: ${{ secrets.TF_CLOUD_TOKEN }}
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+   ```
+
+2. **Provide Required Inputs**
+
+   Ensure you provide all necessary inputs for the workflow, such as AWS credentials, region, and any other required parameters. These should be configured as GitHub secrets in your repository.
+
+3. **Monitor Workflow Runs**
+
+   Check the Actions tab in your GitHub repository to monitor the execution and status of the workflows. Logs and statuses will provide insights into the progress and outcomes of the workflows.
+
+### Benefits of Reusable Workflows
+
+- **Consistency**: Ensure uniform deployment practices across different projects and repositories.
+- **Efficiency**: Save time by reusing established workflows rather than recreating them for each project.
+- **Maintainability**: Simplify updates and changes to workflows by centralizing them in a shared repository.
+
 
 ## Usage
 
