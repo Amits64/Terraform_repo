@@ -1,4 +1,4 @@
-name: EKS Deployment
+name: EBS Deployment
 
 on:
   push:
