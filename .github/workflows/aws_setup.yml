@@ -1,6 +1,17 @@
-name: "AWS_Setup_Deployment"
+name: AWS_Setup_Deployment
 
 on:
+  push:
+    branches:
+      - main
+      - staging
+    paths:
+      - 'aws_setup/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'aws_setup/**'
   workflow_dispatch:
 
 jobs:
@@ -22,64 +33,12 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
 
-  terraform:
-    name: "Apply Terraform Code changes"
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./aws_setup
-    steps:
-      - name: "Checkout source code"
-        uses: actions/checkout@v4
-
-      - name: "Set up Terraform"
-        uses: hashicorp/setup-terraform@v3
-
-      - name: "Configure Terraform credentials"
-        run: |
-          mkdir -p ~/.terraform.d
-          cat > ~/.terraform.d/credentials.tfrc.json <<EOF
-          {
-            "credentials": {
-              "app.terraform.io": {
-                "token": "${{ secrets.TF_CLOUD_TOKEN }}"
-              }
-            }
-          }
-          EOF
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: "Terraform init"
-        id: init
-        run: terraform init
-
-      - name: "Terraform fmt"
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-
-      - name: "Terraform validate"
-        id: validate
-        run: terraform validate
-
-      - name: "Terraform plan"
-        id: plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: terraform plan -no-color -input=false
-
-      - name: "Terraform plan status"
-        if: steps.plan.outcome == 'failure'
-        run: echo "Terraform plan failed"
-
-      - name: "Terraform Apply"
-        id: apply
-        run: terraform apply --auto-approve -input=false
+  deploy:
+    needs: security
+    uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
+    with:
+      working-directory: "./aws_setup"
+      aws-region: ${{ vars.AWS_REGION }}
+      tf-cloud-token: ${{ vars.TF_CLOUD_TOKEN }}
+      aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
