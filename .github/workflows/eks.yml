@@ -5,9 +5,13 @@ on:
     branches:
       - main
       - staging
+    paths:
+      - 'eks-cluster/**'
   pull_request:
     branches:
       - main
+    paths:
+      - 'eks-cluster/**'
   workflow_dispatch:
 
 jobs:

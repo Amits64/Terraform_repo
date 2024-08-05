@@ -5,9 +5,13 @@ on:
     branches:
       - main
       - staging
+    paths:
+      - 'beanstalk_setup/**'
   pull_request:
     branches:
       - main
+    paths:
+      - 'beanstalk_setup/**'
   workflow_dispatch:
 
 jobs:
@@ -16,7 +20,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./beanstalk
+        working-directory: ./beanstalk_setup
     steps:
       - uses: actions/checkout@master
       - uses: snyk/actions/setup@master
@@ -33,7 +37,7 @@ jobs:
     needs: security
     uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
     with:
-      working-directory: "./beanstalk"
+      working-directory: "./beanstalk_setup"
       aws-region: ${{ vars.AWS_REGION }}
       tf-cloud-token: ${{ vars.TF_CLOUD_TOKEN }}
       aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
