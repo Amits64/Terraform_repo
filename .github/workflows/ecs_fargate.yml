@@ -1,4 +1,4 @@
-name: ECS Deployment
+name: ECS Fargate
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
       - main
       - staging
     paths:
-      - 'ecs_cluster/**'
+      - 'ecs_fargate_cluster/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'ecs_cluster/**'
+      - 'ecs_fargate_cluster/**'
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./ecs_cluster
+        working-directory: ./ecs_fargate_cluster
     steps:
       - uses: actions/checkout@master
       - uses: snyk/actions/setup@master
@@ -37,7 +37,7 @@ jobs:
     needs: security
     uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
     with:
-      working-directory: "./ecs_cluster"
+      working-directory: "./ecs_fargate_cluster"
       aws-region: ${{ vars.AWS_REGION }}
       tf-cloud-token: ${{ vars.TF_CLOUD_TOKEN }}
       aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}

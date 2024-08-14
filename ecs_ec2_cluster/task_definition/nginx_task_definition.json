@@ -1,0 +1,13 @@
+[
+    {
+      "name": "nginx",
+      "image": "amits64/nginx:latest",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80
+        }
+      ]
+    }
+  ]
+  
