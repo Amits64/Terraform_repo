@@ -1,5 +1,5 @@
-resource "aws_ecs_task_definition" "app" {
-  family                   = "my-app"
+resource "aws_ecs_task_definition" "nginx" {
+  family                   = "nginx-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
@@ -7,8 +7,8 @@ resource "aws_ecs_task_definition" "app" {
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 
   container_definitions = jsonencode([{
-    name  = "my-app"
-    image = "nginx"
+    name  = "nginx"
+    image = "nginx:latest"
     essential = true
     portMappings = [{
       containerPort = 80
@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "app" {
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        awslogs-group         = "/ecs/my-app"
+        awslogs-group         = "/ecs/nginx"
         awslogs-region        = "us-west-2"
         awslogs-stream-prefix = "ecs"
       }
