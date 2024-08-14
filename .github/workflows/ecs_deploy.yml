@@ -1,4 +1,4 @@
-name: EKS Deployment
+name: ECS Deployment
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./eks-cluster
+        working-directory: ./ecs_cluster
     steps:
       - uses: actions/checkout@master
       - uses: snyk/actions/setup@master
@@ -37,24 +37,8 @@ jobs:
     needs: security
     uses: Amits64/shared_library/.github/workflows/terraform-setup.yml@main
     with:
-      working-directory: "./eks-cluster"
+      working-directory: "./ecs_cluster"
       aws-region: ${{ vars.AWS_REGION }}
       tf-cloud-token: ${{ vars.TF_CLOUD_TOKEN }}
       aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
-
-  post-deploy:
-    runs-on: ubuntu-latest
-    needs: deploy
-    if: needs.deploy.outputs.apply_status == 'success'
-    steps:
-      - name: "Get Kube config file"
-        id: getconfig
-        env:
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          EKS_CLUSTER: ${{ vars.EKS_CLUSTER }}
-        run: aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER
-
-      - name: "Install Ingress Controller"
-        if: ${{ success() && steps.getconfig.outcome == 'success' }}
-        run: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
