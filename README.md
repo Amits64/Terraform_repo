@@ -1,4 +1,5 @@
 [![EKS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml)
+[![ECS Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_deploy.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_deploy.yml)
 [![EBS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml)
 [![AWS_Setup_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/aws_setup.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/aws_setup.yml)
 ![Known Vulnerabilities](https://snyk.io/test/github/{username}/{repo}/badge.svg)
