@@ -1,5 +1,5 @@
 [![EKS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml)
-[![ECS Fargate](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_deploy.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_deploy.yml)
+[![ECS Fargate](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml)
 [![ECS EC2](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_ec2.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_ec2.yml)
 [![EBS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml)
 [![AWS_Setup_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/aws_setup.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/aws_setup.yml)
