@@ -8,7 +8,7 @@ data "aws_ami" "ecs" {
 }
 
 resource "aws_iam_instance_profile" "ecs" {
-  name = "ecsInstanceProfile"
+  name = "ecsInstance"
   role = aws_iam_role.ecs_task_execution.name
 }
 
@@ -53,7 +53,7 @@ resource "aws_ecs_cluster" "main" {
 }
 
 resource "aws_launch_configuration" "ecs" {
-  name          = "ecs-launch-configuration"
+  name          = "ecs_launch_configuration"
   image_id      = data.aws_ami.ecs.id
   instance_type = "t3.micro"
   iam_instance_profile = aws_iam_instance_profile.ecs.name
