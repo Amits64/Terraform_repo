@@ -39,7 +39,7 @@ This project automates the provisioning and deployment of AWS infrastructure usi
 - AWS MQ for messaging.
 
 ## Architectural Design
-![image](https://github.com/user-attachments/assets/79a3ea0c-b13e-4c42-af63-11038d48b96d)
+![image](https://github.com/user-attachments/assets/c1ff6ddb-c514-4b81-b97b-06e1d7cba56d)
 
 
 ## Prerequisites
