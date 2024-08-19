@@ -11,6 +11,7 @@ Welcome to the Terraform repository for deploying AWS infrastructure. This repos
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Architectural Design](#architectural-design)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Reusable Workflows](#reusable-workflows)
@@ -36,6 +37,10 @@ This project automates the provisioning and deployment of AWS infrastructure usi
 - AWS IAM for access control.
 - AWS Elastic Beanstalk for application deployment.
 - AWS MQ for messaging.
+
+## Architectural Design
+![image](https://github.com/user-attachments/assets/79a3ea0c-b13e-4c42-af63-11038d48b96d)
+
 
 ## Prerequisites
 
