@@ -12,7 +12,6 @@ This project sets up a highly available, secure, multi-AZ ECS EC2 cluster using 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
 - [Usage](#usage)
@@ -24,16 +23,13 @@ This project sets up a highly available, secure, multi-AZ ECS EC2 cluster using 
 - [Contributing](#contributing)
 - [License](#license)
 
-## Architecture
-
-![Architecture Diagram](https://example.com/architecture-diagram.png)
-
 ## Prerequisites
 
 - AWS Account
 - Terraform installed
 - AWS CLI configured
 - IAM roles with necessary permissions
+- Existing IAM instance profile named `ecsInstanceProfile`
 
 ## Setup
 
@@ -75,7 +71,7 @@ The VPC module sets up the network infrastructure, including public and private 
 
 ### ECS
 
-The ECS module configures the ECS cluster, including security groups, IAM roles, and auto-scaling groups.
+The ECS module configures the ECS cluster, including security groups, IAM roles, and auto-scaling groups. Note that it uses an existing IAM instance profile named `ecsInstance`.
 
 ### ALB
 
@@ -107,4 +103,3 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
