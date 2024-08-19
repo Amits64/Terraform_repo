@@ -7,19 +7,28 @@ data "aws_ami" "ecs" {
   owners = ["amazon"]
 }
 
-resource "aws_iam_instance_profile" "ecs" {
+# Use data source to refer to the existing IAM instance profile
+data "aws_iam_instance_profile" "ecs" {
   name = "ecsInstance"
-  role = aws_iam_role.ecs_task_execution.name
 }
 
 resource "aws_security_group" "ecs" {
   vpc_id = var.vpc_id
+
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]  # Allow RDS access within the VPC
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -53,10 +62,10 @@ resource "aws_ecs_cluster" "main" {
 }
 
 resource "aws_launch_configuration" "ecs" {
-  name          = "ecs_launch_configuration"
-  image_id      = data.aws_ami.ecs.id
-  instance_type = "t3.micro"
-  iam_instance_profile = aws_iam_instance_profile.ecs.name
+  name                 = "ecs_launch_configuration"
+  image_id             = data.aws_ami.ecs.id
+  instance_type        = "t3.micro"
+  iam_instance_profile = data.aws_iam_instance_profile.ecs.name
   security_groups      = [aws_security_group.ecs.id]
   user_data            = <<-EOF
     #!/bin/bash

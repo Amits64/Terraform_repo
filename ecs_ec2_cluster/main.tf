@@ -1,22 +1,50 @@
+terraform {
+  cloud {
+
+    organization = "SFBTraining"
+
+    workspaces {
+      name = "ECS_EC2_DEPLOY"
+    }
+  }
+}
+
 provider "aws" {
-  region = "us-west-2"
+  region = var.region
 }
 
 module "vpc" {
-  source = "./modules/vpc"
+  source            = "./modules/vpc"
+  region            = var.region
+  security_group_id = module.ecs.security_group_id
+  private_subnets   = module.vpc.private_subnets
 }
 
 module "ecs" {
-  source = "./modules/ecs"
-  vpc_id = module.vpc.vpc_id
-  public_subnets = module.vpc.public_subnets
+  source          = "./modules/ecs"
+  vpc_id          = module.vpc.vpc_id
+  public_subnets  = module.vpc.public_subnets
   private_subnets = module.vpc.private_subnets
 }
 
 module "alb" {
-  source = "./modules/alb"
-  vpc_id = module.vpc.vpc_id
-  public_subnets = module.vpc.public_subnets
+  source            = "./modules/alb"
+  vpc_id            = module.vpc.vpc_id
+  public_subnets    = module.vpc.public_subnets
+  security_group_id = module.ecs.security_group_id
+}
+
+module "s3" {
+  source      = "./modules/s3"
+  bucket_name = var.bucket_name
+}
+
+module "rds" {
+  source            = "./modules/rds"
+  db_identifier     = "my-db-instance"
+  username          = "admin"
+  password          = "password"
+  private_subnets   = module.vpc.private_subnets
   security_group_id = module.ecs.security_group_id
 }
 
