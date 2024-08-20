@@ -1,7 +1,7 @@
 variable "cluster_name" {
   description = "The name of the EKS cluster"
   type        = string
-  default     = "my-eks-cluster"
+  default     = "production-eks-cluster"
 }
 
 variable "cluster_version" {
@@ -10,7 +10,7 @@ variable "cluster_version" {
   default     = "1.28"
 }
 
-variable "subnets" {
+variable "subnet_ids" {
   description = "A list of subnet IDs for the EKS cluster"
   type        = list(string)
 }
@@ -24,6 +24,6 @@ variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {
-    Name = "my-eks-cluster"
+    Name = "production-eks-cluster"
   }
 }

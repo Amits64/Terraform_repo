@@ -1,7 +1,7 @@
 variable "vpc_name" {
   description = "The name of the VPC"
   type        = string
-  default     = "eks-vpc"
+  default     = "production-vpc"
 }
 
 variable "vpc_cidr" {
@@ -13,7 +13,7 @@ variable "vpc_cidr" {
 variable "azs" {
   description = "A list of availability zones"
   type        = list(string)
-  default     = ["us-west-2a", "us-west-2b", "us-west-2c"]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "private_subnets" {
@@ -44,6 +44,6 @@ variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {
-    Name = "eks-vpc"
+    Name = "production-vpc"
   }
 }
