@@ -1,3 +1,4 @@
+[![Corner_stone](https://github.com/Amits64/Terraform_repo/actions/workflows/corner_stone.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/corner_stone.yml)
 [![EKS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml)
 [![ECS Fargate](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml)
 [![ECS EC2](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_ec2.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_ec2.yml)
