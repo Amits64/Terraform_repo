@@ -53,7 +53,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan
+        run: terraform plan -var-file=dev.tfvars
 
       - name: Terraform plan status
         if: steps.plan.outcome == 'failure'
