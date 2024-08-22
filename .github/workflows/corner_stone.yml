@@ -1,4 +1,4 @@
-name: ECS Fargate
+name: Corner_stone
 
 on:
   push:
