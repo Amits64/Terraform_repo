@@ -1,5 +1,6 @@
+[![Corner_stone](https://github.com/Amits64/Terraform_repo/actions/workflows/corner_stone.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/corner_stone.yml)
 [![EKS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/eks.yml)
-[![ECS Fargate](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml)
+[![ECS Fargate](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml/badge.svg?branch=main)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_fargate.yml)
 [![ECS EC2](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_ec2.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/ecs_ec2.yml)
 [![EBS_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/beanstalk.yml)
 [![AWS_Setup_Deployment](https://github.com/Amits64/Terraform_repo/actions/workflows/aws_setup.yml/badge.svg)](https://github.com/Amits64/Terraform_repo/actions/workflows/aws_setup.yml)
@@ -11,6 +12,7 @@ Welcome to the Terraform repository for deploying AWS infrastructure. This repos
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Architectural Design](#architectural-design)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Reusable Workflows](#reusable-workflows)
@@ -36,6 +38,10 @@ This project automates the provisioning and deployment of AWS infrastructure usi
 - AWS IAM for access control.
 - AWS Elastic Beanstalk for application deployment.
 - AWS MQ for messaging.
+
+## Architectural Design
+![image](https://github.com/user-attachments/assets/56c21726-e1ff-49b8-8652-e3de073f377b)
+
 
 ## Prerequisites
 

@@ -1,0 +1,33 @@
+version: 0.2
+
+env:
+  variables:
+    TERRAFORM_VERSION: "1.8.3"
+
+phases:
+  install:
+    commands:
+      - echo "Installing tfenv and Terraform..."
+      - git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+      - export PATH="$HOME/.tfenv/bin:$PATH"
+      - tfenv install $TERRAFORM_VERSION
+      - tfenv use $TERRAFORM_VERSION
+
+  pre_build:
+    commands:
+      - terraform -v
+      - echo "Terraform installed."
+      - export BRANCH_NAME=${BRANCH_NAME:=${CODEBUILD_WEBHOOK_HEAD_REF#refs/heads/}}
+      - echo "BRANCH_NAME is $BRANCH_NAME"
+
+  build:
+    commands:
+      - if [[ $BRANCH_NAME == development ]]; then
+          terraform init || (echo "Error running terraform init in Dev" && exit 1);
+          terraform workspace select dev;
+          terraform plan -var-file=dev.tfvars -out=tfplan || (echo "Error creating Terraform plan in Dev" && exit 1);
+          terraform apply -auto-approve tfplan || (echo "Error applying Terraform plan in Dev" && exit 1);
+        else
+          echo "Branch not recognized. Skipping Terraform actions.";
+        fi
+      - echo "Terraform actions completed for branch $BRANCH_NAME"
