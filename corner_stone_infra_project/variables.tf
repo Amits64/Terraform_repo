@@ -136,17 +136,78 @@ variable "node_type" {
 variable "sns_topic_name" {
   description = "Name of the SNS topic"
   type        = string
-  default     = "cornerstone-notifications"
 }
 
 variable "ses_domain" {
   description = "Domain for SES"
   type        = string
-  default     = "devops-tech.xyz"
+}
+
+variable "ecs_cluster_name" {
+  description = "Name of the ECS cluster"
+  type        = string
 }
 
 variable "container_insights" {
   description = "Enable container insights for ECS"
   type        = bool
   default     = true
+}
+
+variable "cloudwatch_log_group_name" {
+  description = "The name of the CloudWatch Log Group"
+  type        = string
+}
+
+variable "cloudwatch_log_retention_days" {
+  description = "The number of days to retain CloudWatch logs"
+  type        = number
+  default     = 30
+}
+
+variable "cpu_alarm_name" {
+  description = "The name of the CPU usage alarm"
+  type        = string
+}
+
+variable "cpu_comparison_operator" {
+  description = "The comparison operator for the CPU usage alarm"
+  type        = string
+  default     = "GreaterThanThreshold"
+}
+
+variable "cpu_evaluation_periods" {
+  description = "The number of evaluation periods for the CPU usage alarm"
+  type        = number
+  default     = 2
+}
+
+variable "cpu_metric_name" {
+  description = "The metric name for the CPU usage alarm"
+  type        = string
+  default     = "CPUUtilization"
+}
+
+variable "cpu_namespace" {
+  description = "The namespace for the CPU usage alarm"
+  type        = string
+  default     = "AWS/ECS"
+}
+
+variable "cpu_period" {
+  description = "The period in seconds for the CPU usage alarm"
+  type        = number
+  default     = 300
+}
+
+variable "cpu_statistic" {
+  description = "The statistic for the CPU usage alarm"
+  type        = string
+  default     = "Average"
+}
+
+variable "cpu_threshold" {
+  description = "The threshold for the CPU usage alarm"
+  type        = number
+  default     = 80
 }

@@ -1,5 +1,5 @@
 resource "aws_db_instance" "cornerstone_db" {
-  identifier              = var.db_identifier 
+  identifier              = var.db_identifier
   allocated_storage       = var.db_allocated_storage
   storage_type            = "gp2"
   engine                  = "postgres"

@@ -1,3 +1,14 @@
+terraform {
+  cloud {
+
+    organization = "SFBTraining"
+
+    workspaces {
+      name = "corner_stone"
+    }
+  }
+}
+
 provider "aws" {
   region = var.region
 }

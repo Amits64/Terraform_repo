@@ -109,44 +109,43 @@ resource "aws_ses_domain_dkim" "notifications" {
   domain = aws_ses_domain_identity.notifications.domain
 }
 
+module "ecs" {
+  source = "./modules/ecs"
+
+  ecs_cluster_name   = var.ecs_cluster_name
+  container_insights = var.container_insights
+  environment        = var.environment
+}
+
 resource "aws_cloudwatch_log_group" "cornerstone_dev_cloudwatch_logs" {
-  name = "/aws/ecs/cornerstone-dev-cloudwatch-logs"
-  retention_in_days = 30
+  name              = var.cloudwatch_log_group_name
+  retention_in_days = var.cloudwatch_log_retention_days
   tags = {
-    Name = "cornerstone-dev-cloudwatch-logs"
+    Name = var.cloudwatch_log_group_name
   }
 }
 
-resource "aws_ecs_cluster" "this" {
-  name = "ecs-${var.environment}-001"
-
-  setting {
-    name  = "containerInsights"
-    value = var.container_insights ? "enabled" : "disabled"
-  }
-
-  tags = {
-    Environment = var.environment
-  }
-}
-
-# CloudWatch Monitoring
 resource "aws_cloudwatch_metric_alarm" "high_cpu_alarm" {
-  alarm_name          = "HighCPUUsage"
-  comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = "2"
-  metric_name         = "CPUUtilization"
-  namespace           = "AWS/ECS"
-  period              = "300"
-  statistic           = "Average"
-  threshold           = "80"
+  alarm_name          = var.cpu_alarm_name
+  comparison_operator = var.cpu_comparison_operator
+  evaluation_periods  = var.cpu_evaluation_periods
+  metric_name         = var.cpu_metric_name
+  namespace           = var.cpu_namespace
+  period              = var.cpu_period
+  statistic           = var.cpu_statistic
+  threshold           = var.cpu_threshold
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.this.name
+    ClusterName = module.ecs.ecs_cluster_name
   }
 
   alarm_actions = [aws_sns_topic.cornerstone_notifications_topic.arn]
   tags = {
-    Name = "HighCPUUsage"
+    Name = var.cpu_alarm_name
   }
+}
+
+output "ecs_cluster_arn" {
+  description = "The ARN of the ECS cluster"
+  value       = module.ecs.ecs_cluster_arn
 }

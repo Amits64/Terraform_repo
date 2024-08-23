@@ -24,7 +24,7 @@ cluster_name = "cornerstone-redis-cluster"
 node_type    = "cache.t3.medium"
 
 # RDS
-db_identifier           = "cornerstone-dev-rds-postgres"
+db_identifier        = "cornerstone-dev-rds-postgres"
 db_instance_class    = "db.t3.medium"
 db_name              = "cornerstone_db"
 db_engine_version    = "13.16"
@@ -36,3 +36,16 @@ db_password          = "Password123!"
 sns_topic_name = "cornerstone-notifications-topic"
 ses_domain     = "cornerstone.com"
 
+# Logging & Monitoring
+ecs_cluster_name              = "cor-use1-dev-cluster"
+container_insights            = true
+cloudwatch_log_group_name     = "/aws/ecs/cornerstone-dev-cloudwatch-logs"
+cloudwatch_log_retention_days = 30
+cpu_alarm_name                = "HighCPUUsage"
+cpu_comparison_operator       = "GreaterThanThreshold"
+cpu_evaluation_periods        = 2
+cpu_metric_name               = "CPUUtilization"
+cpu_namespace                 = "AWS/ECS"
+cpu_period                    = 300
+cpu_statistic                 = "Average"
+cpu_threshold                 = 80
